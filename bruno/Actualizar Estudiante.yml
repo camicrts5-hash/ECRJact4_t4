@@ -1,0 +1,26 @@
+info:
+  name: Actualizar Estudiante
+  type: http
+  seq: 7
+
+http:
+  method: PUT
+  url: http://localhost:8087/api/v1/estudiantes/6
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Diego",
+        "apellido": "Elvira",
+        "email": "diego@gmail.com"
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYW1pbGEiLCJpYXQiOjE3OTQ0NjQwNzgsImV4cCI6MTc5NDU1MDQ3OH0.KMlQyKj5k7Q9NKEG47BpCTScWa2fQ2JyOep9s0201uM
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

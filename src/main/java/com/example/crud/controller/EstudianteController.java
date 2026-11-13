@@ -6,10 +6,11 @@ import com.example.crud.entity.Estudiante;
 import com.example.crud.service.EstudianteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,14 +24,14 @@ public class EstudianteController {
     @Autowired
     private EstudianteService service;
 
-    // GET Devuelve DTOs
+    // GET Listar (CON PAGINACIÓN)
     @GetMapping
-    public ResponseEntity<List<EstudianteResponse>> getAll() {
-        List<EstudianteResponse> lista = service.getEstudiantes().stream().map(this::convertToDTO).collect(Collectors.toList());
-        return ResponseEntity.ok(lista);
+    public ResponseEntity<Page<EstudianteResponse>> getAll(Pageable pageable) {
+        Page<EstudianteResponse> pagina = service.getEstudiantes(pageable).map(this::convertToDTO);
+        return ResponseEntity.ok(pagina);
     }
 
-    //GET por ID
+    // GET Individual
     @GetMapping("/{id}")
     public ResponseEntity<EstudianteResponse> getById(@PathVariable Long id) {
         return service.getEstudiante(id)
@@ -38,7 +39,7 @@ public class EstudianteController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // POST 
+    // POST
     @PostMapping
     public ResponseEntity<EstudianteResponse> save(@Valid @RequestBody EstudianteRequest request) {
         Estudiante estudiante = new Estudiante();
@@ -50,6 +51,18 @@ public class EstudianteController {
         return new ResponseEntity<>(convertToDTO(guardado), HttpStatus.CREATED);
     }
 
+    // PUT Actualizar
+    @PutMapping("/{id}")
+    public ResponseEntity<EstudianteResponse> update(@PathVariable Long id, @Valid @RequestBody EstudianteRequest request) {
+        Estudiante estudianteAct = new Estudiante();
+        estudianteAct.setNombre(request.getNombre());
+        estudianteAct.setApellido(request.getApellido());
+        estudianteAct.setEmail(request.getEmail());
+
+        Estudiante actualizado = service.update(id, estudianteAct);
+        return ResponseEntity.ok(convertToDTO(actualizado));
+    }
+
     // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -57,6 +70,7 @@ public class EstudianteController {
         return ResponseEntity.noContent().build();
     }
 
+    // Método auxiliar DTO
     private EstudianteResponse convertToDTO(Estudiante est) {
         EstudianteResponse dto = new EstudianteResponse();
         dto.setId(est.getId());
