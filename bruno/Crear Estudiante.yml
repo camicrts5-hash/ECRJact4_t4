@@ -1,0 +1,26 @@
+info:
+  name: Crear Estudiante
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://18.218.44.223:8089/api/v1/estudiantes
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Diana",
+        "apellido": "Arguelles",
+        "email": "diana@gmail.com"
+      }
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTb2xlZGFkIiwiaWF0IjoxNzk0NTM5ODkwLCJleHAiOjE3OTQ2MjYyOTB9.3EkP5l5ibvnH1TGed8R4s_7ancw8TpgAdtOgmzTJAJw
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

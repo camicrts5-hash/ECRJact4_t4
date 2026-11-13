@@ -1,0 +1,18 @@
+info:
+  name: Listar Estudiante
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: http://localhost:8087/api/v1/estudiantes
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYW1pbGEiLCJpYXQiOjE3OTQ0NjQwNzgsImV4cCI6MTc5NDU1MDQ3OH0.KMlQyKj5k7Q9NKEG47BpCTScWa2fQ2JyOep9s0201uM
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
